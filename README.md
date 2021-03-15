@@ -20,7 +20,7 @@ Vapor 놀이 공간
 
 -   GET /hello/{name}
 
-    >   Hello, {name}!
+>   Hello, {name}!
 
 ### 지원 메서드
 
@@ -51,3 +51,24 @@ Vapor 놀이 공간
 ### Redirections
 
 -   `request.redirect(to:)` 메서드를 사용하여 사용자에게 리다이렉트를 할 수 있다.
+
+---
+
+## Fluent
+
+>   Fluent는 Swift ORM 프레임워크입니다. Swift의 강력한 타입 시스템을 활용하여 데이터베이스에 접근하기 쉬운 인터페이스를 제공합니다. Fluent는 모델 타입의 데이터 구조를 나타냅니다. 이러한 모델은  로우 레벨의 쿼리를 작성하지 않고 생성, 읽기, 업데이트, 삭제 작업을 수행하는데 사용합니다.
+
+Fluent framework 및 데이터베이스 설정
+
+```swift
+import Fluent
+import FluentPostgresDriver
+
+public func configure(_ app: Application) throws {
+    app.databases.use(.postgres(
+      	...
+    ), as: .psql)
+    ...
+}
+```
+
