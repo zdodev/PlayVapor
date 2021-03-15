@@ -43,3 +43,11 @@ Vapor 놀이 공간
 
 -   `get(_:as:)` 메서드를 사용하여 파라미터의 값을 형변환하여 사용할 수 있다.
 -   `Catchall` 을 사용하면 request.parameters에 경로가 저장된다. request.parameters.getCatchall() 메서드를 사용
+
+### Route Groups
+
+-   `Path prefix` 를 사용하여 한 경로의 요청을 묶어서 처리할 수 있습니다.
+
+### Redirections
+
+-   `request.redirect(to:)` 메서드를 사용하여 사용자에게 리다이렉트를 할 수 있다.
