@@ -72,3 +72,43 @@ public func configure(_ app: Application) throws {
 }
 ```
 
+---
+
+## PostgreSQL
+
+### Install PostgreSQL
+
+```bash
+brew install postgresql
+```
+
+### Create a physical PostgreSQL database
+
+```bash
+initdb /usr/local/var/postgres
+```
+
+### Start a PostgreSQL database
+
+```bash
+pg_ctl -D /usr/local/var/postgres start
+```
+
+### Stop a PostgreSQL database
+
+```swift
+pg_ctl -D /usr/local/var/postgres stop
+```
+
+### Create the Actual PostgreSQL database
+
+```bash
+createdb mydatabase
+```
+
+### Remove the Actual PostgreSQL database
+
+```bash
+dropdb mydatabase
+```
+
