@@ -26,4 +26,5 @@ public func configure(_ app: Application) throws {
     try routes(app)
     try contentRoute(app)
     try clientRequest(app)
+    try validationData(app)
 }
