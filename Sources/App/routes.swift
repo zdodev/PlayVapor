@@ -80,3 +80,9 @@ func routes(_ app: Application) throws {
 
     try app.register(collection: TodoController())
 }
+
+func contentRoute(_ app: Application) throws {
+    app.get("test") { request -> String in
+        "test"
+    }
+}
