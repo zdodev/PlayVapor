@@ -2,30 +2,27 @@ import Fluent
 import Vapor
 
 func routes(_ app: Application) throws {
-//    app.get { req in
-//        return req.view.render("index", ["title": "Hello Vapor!"])
-//    }
     app.get { request -> String in
         return "Hello!"
     }
 
-    app.get("hello") { request -> String in
+    app.get("route") { request -> String in
         "Hello, world!"
     }
     
-    app.get("hello", "vapor") { request in
-        "Hello, Vapor!"
+    app.get("route", "1") { request in
+        "Hello, 1"
     }
     
-    app.get(["hello", "zdo"]) { request in
-        "Hello, zdo!"
+    app.get(["route", "2"]) { request in
+        "Hello, 2"
     }
     
-    app.on(.GET, "hello", "ios") { request in
-        "Hello, iOS!"
+    app.on(.GET, "route", "3") { request in
+        "Hello, 3"
     }
     
-    app.get("hello", ":name") { request -> String in
+    app.get("route", ":name") { request -> String in
         let name = request.parameters.get("name")!
         return "Hello, \(name)!"
     }
@@ -37,7 +34,7 @@ func routes(_ app: Application) throws {
         return "\(int) is a great number."
     }
     
-    app.get("hello", "**") { request -> String in
+    app.get("route", "**") { request -> String in
         let name = request.parameters.getCatchall().joined(separator: " ")
         return "Hello, \(name)!"
     }
@@ -54,25 +51,25 @@ func routes(_ app: Application) throws {
 //        return id
 //    }
     
-    app.group("users") { users in
+    app.group("group") { users in
         users.get { request in
-            "GET users"
+            "GET group"
         }
         users.post { request in
-            "POST users"
+            "POST group"
         }
         users.group(":id") { user in
             user.get { request in
-                "GET users \(request.parameters.get("id")!)"
+                "GET group \(request.parameters.get("id")!)"
             }
             user.post { request in
-                "POST users \(request.parameters.get("id")!)"
+                "POST group \(request.parameters.get("id")!)"
             }
             user.patch { request in
-                "PATCH users \(request.parameters.get("id")!)"
+                "PATCH group \(request.parameters.get("id")!)"
             }
             user.put { request in
-                "PUT users \(request.parameters.get("id")!)"
+                "PUT group \(request.parameters.get("id")!)"
             }
             user.delete { request in
 //                "DELETE users \(request.parameters.get("id")!)"
