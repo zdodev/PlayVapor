@@ -58,7 +58,7 @@ Vapor 놀이 공간
 
 >   Fluent는 Swift ORM 프레임워크입니다. Swift의 강력한 타입 시스템을 활용하여 데이터베이스에 접근하기 쉬운 인터페이스를 제공합니다. Fluent는 모델 타입의 데이터 구조를 나타냅니다. 이러한 모델은  로우 레벨의 쿼리를 작성하지 않고 생성, 읽기, 업데이트, 삭제 작업을 수행하는데 사용합니다.
 
-Fluent framework 및 데이터베이스 설정
+### Fluent framework 및 데이터베이스 설정
 
 ```swift
 import Fluent
@@ -71,6 +71,36 @@ public func configure(_ app: Application) throws {
     ...
 }
 ```
+
+### Migrations
+
+migration 데이터베이스 스키마 정의
+
+```swift
+func prepare(on database: Database) -> EventLoopFuture<Void> {
+    return database.schema(Memo.schema)
+        .id()
+        .field("title", .string)
+        .field("description", .string)
+        .field("date", .string)
+        .field("status", .string)
+        .create()
+}
+```
+
+### Migrate
+
+```bash
+vapor run migrate
+```
+
+### Revert
+
+```bash
+vapor run migrate --revert
+```
+
+
 
 ---
 
