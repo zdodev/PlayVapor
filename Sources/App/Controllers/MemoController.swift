@@ -3,7 +3,8 @@ import Vapor
 
 struct MemoController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
-        let memos = routes.grouped("memos")
+//        let memos = routes.grouped("memos")
+//        memos.get(use: index)
 //        todos.get(use: index)
 //        todos.post(use: create)
 //        todos.group(":todoID") { todo in
@@ -11,7 +12,7 @@ struct MemoController: RouteCollection {
 //        }
     }
 
-//    func index(req: Request) throws -> EventLoopFuture<[Todo]> {
+//    func index(req: Request) throws -> EventLoopFuture<[Memo]> {
 //        return Todo.query(on: req.db).all()
 //    }
 //

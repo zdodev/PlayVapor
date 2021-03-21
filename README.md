@@ -52,6 +52,19 @@ Vapor 놀이 공간
 
 -   `request.redirect(to:)` 메서드를 사용하여 사용자에게 리다이렉트를 할 수 있다.
 
+### JSON Response
+
+```swift
+app.get("memos") { request -> EventLoopFuture<Response> in
+    let memo = Memo(id: UUID(), title: "ee", description: "ee", date: "ee", status: "ee")
+    let test = memo.encodeResponse(for: request)
+    
+    return test
+}
+```
+
+
+
 ---
 
 ## Fluent
