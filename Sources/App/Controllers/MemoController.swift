@@ -24,7 +24,7 @@ struct MemoController: RouteCollection {
         }
     }
     
-    func updateMemo(request: Request) throws -> EventLoopFuture<Void> {
+    func updateMemo(request: Request) throws -> EventLoopFuture<[Memo]> {
         let memo = try request.content.decode(Memo.self)
         
         guard let index = memo.id else {
@@ -59,7 +59,7 @@ struct MemoController: RouteCollection {
                 .update()
         }
         
-        return
+        return Memo.query(on: request.db).all()
     }
 
 //    func delete(req: Request) throws -> EventLoopFuture<HTTPStatus> {
