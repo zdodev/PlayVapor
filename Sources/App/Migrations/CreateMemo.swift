@@ -5,6 +5,7 @@ struct CreateMemo: Migration {
         return database.schema(Memo.schema)
             .id()
             .field("title", .string, .required)
+            .field("test", .string)
             .create()
     }
 
