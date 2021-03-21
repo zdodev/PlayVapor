@@ -2,12 +2,12 @@ import Fluent
 import Vapor
 
 func routes(_ app: Application) throws {
-    app.get("memos") { request -> EventLoopFuture<Response> in
-        let memo = Memo(id: UUID(), title: "ee", description: "ee", date: "ee", status: "ee")
-        let test = memo.encodeResponse(for: request)
-        
-        return test
-    }
+//    app.get("memos") { request -> EventLoopFuture<Response> in
+//        let memo = Memo(id: UUID(), title: "ee", description: "ee", date: "ee", status: "ee")
+//        let test = memo.encodeResponse(for: request)
+//        
+//        return test
+//    }
     
     app.get { request -> String in
         return "Hello!"

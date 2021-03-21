@@ -8,21 +8,21 @@ final class Memo: Model, Content {
     var id: UUID?
 
     @Field(key: "title")
-    var title: String
+    var title: String?
     
     @Field(key: "description")
-    var description: String
+    var description: String?
     
     @Field(key: "date")
-    var date: String
+    var date: String?
     
     @Field(key: "status")
-    var status: String
+    var status: String?
 
     init() { }
 
     init(id: UUID, title: String, description: String, date: String, status: String) {
-        self.id = id
+        self.id = UUID()
         self.title = title
         self.description = description
         self.date = date
