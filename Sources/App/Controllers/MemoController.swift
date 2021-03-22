@@ -9,8 +9,7 @@ struct MemoController: RouteCollection {
         let memo = routes.grouped("memo")
         memo.post(use: createMemo)
         memo.patch(use: updateMemo)
-//        todos.group(":todoID") { todo in
-//            todo.delete(use: delete)
+        memo.delete(":index", use: deleteMemo)
     }
 
     func readAllMemo(request: Request) throws -> EventLoopFuture<[Memo]> {
@@ -62,10 +61,10 @@ struct MemoController: RouteCollection {
         return Memo.query(on: request.db).all()
     }
 
-//    func delete(req: Request) throws -> EventLoopFuture<HTTPStatus> {
-//        return Todo.find(req.parameters.get("todoID"), on: req.db)
-//            .unwrap(or: Abort(.notFound))
-//            .flatMap { $0.delete(on: req.db) }
-//            .transform(to: .ok)
-//    }
+    func deleteMemo(request: Request) throws -> EventLoopFuture<HTTPStatus> {
+        return Memo.find(request.parameters.get("index"), on: request.db)
+            .unwrap(or: Abort(.notFound))
+            .flatMap { $0.delete(on: request.db) }
+            .transform(to: .ok)
+    }
 }
