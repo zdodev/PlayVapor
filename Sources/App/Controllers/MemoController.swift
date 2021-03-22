@@ -61,10 +61,16 @@ struct MemoController: RouteCollection {
         return Memo.query(on: request.db).all()
     }
 
-    func deleteMemo(request: Request) throws -> EventLoopFuture<HTTPStatus> {
-        return Memo.find(request.parameters.get("index"), on: request.db)
+    func deleteMemo(request: Request) throws -> EventLoopFuture<Memo> {
+        let memo = Memo.find(request.parameters.get("index"), on: request.db)
             .unwrap(or: Abort(.notFound))
-            .flatMap { $0.delete(on: request.db) }
-            .transform(to: .ok)
+        
+        _ = Memo.find(request.parameters.get("index"), on: request.db)
+            .unwrap(or: Abort(.notFound))
+            .flatMap {
+                $0.delete(on: request.db)
+            }
+        
+        return memo
     }
 }
