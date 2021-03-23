@@ -20,11 +20,11 @@ struct MemoController: RouteCollection {
         return "ee"
     }
     
-    func readAllMemo(request: Request) throws -> EventLoopFuture<[Memo]> {
+    private func readAllMemo(request: Request) throws -> EventLoopFuture<[Memo]> {
         return Memo.query(on: request.db).all()
     }
     
-    func createMemo(request: Request) throws -> EventLoopFuture<Memo> {
+    private func createMemo(request: Request) throws -> EventLoopFuture<Memo> {
         try checkValidContentType(request.headers.contentType)
         let memo = try request.content.decode(Memo.self)
         return memo.save(on: request.db).map {
@@ -32,7 +32,7 @@ struct MemoController: RouteCollection {
         }
     }
     
-    func updateMemo(request: Request) throws -> EventLoopFuture<[Memo]> {
+    private func updateMemo(request: Request) throws -> EventLoopFuture<[Memo]> {
         try checkValidContentType(request.headers.contentType)
         let memo = try request.content.decode(Memo.self)
         
@@ -40,38 +40,38 @@ struct MemoController: RouteCollection {
             throw Abort(.badRequest)
         }
         
-        if let title = memo.title {
-            _ = Memo.query(on: request.db)
-                .set(\.$title, to: title)
-                .filter(\.$id == index)
-                .update()
-        }
-        
-        if let description = memo.description {
-            _ = Memo.query(on: request.db)
-                .set(\.$description, to: description)
-                .filter(\.$id == index)
-                .update()
-        }
-        
-        if let date = memo.date {
-            _ = Memo.query(on: request.db)
-                .set(\.$date, to: date)
-                .filter(\.$id == index)
-                .update()
-        }
-        
-        if let status = memo.status {
-            _ = Memo.query(on: request.db)
-                .set(\.$status, to: status)
-                .filter(\.$id == index)
-                .update()
-        }
+//        if let title = memo.title {
+//            _ = Memo.query(on: request.db)
+//                .set(\.$title, to: title)
+//                .filter(\.$id == index)
+//                .update()
+//        }
+//        
+//        if let description = memo.description {
+//            _ = Memo.query(on: request.db)
+//                .set(\.$description, to: description)
+//                .filter(\.$id == index)
+//                .update()
+//        }
+//        
+//        if let date = memo.date {
+//            _ = Memo.query(on: request.db)
+//                .set(\.$date, to: date)
+//                .filter(\.$id == index)
+//                .update()
+//        }
+//        
+//        if let status = memo.status {
+//            _ = Memo.query(on: request.db)
+//                .set(\.$status, to: status)
+//                .filter(\.$id == index)
+//                .update()
+//        }
         
         return Memo.query(on: request.db).all()
     }
     
-    func deleteMemo(request: Request) throws -> EventLoopFuture<Memo> {
+    private func deleteMemo(request: Request) throws -> EventLoopFuture<Memo> {
         let memo = Memo.find(request.parameters.get("index"), on: request.db)
             .unwrap(or: Abort(.notFound))
         
