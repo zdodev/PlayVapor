@@ -3,21 +3,13 @@ import Vapor
 
 struct MemoController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
-        let test = routes.grouped("test")
-        test.post(use: tests)
-        
         let memos = routes.grouped("memos")
         memos.get(use: readAllMemo)
         
         let memo = routes.grouped("memo")
         memo.post(use: createMemo)
-        memo.patch(use: updateMemo)
+        memo.patch(":index", use: updateMemo)
         memo.delete(":index", use: deleteMemo)
-    }
-    
-    private func tests(request: Request) throws -> String {
-        let memo = try request.content.decode(Memo.self)
-        return "ee"
     }
     
     private func readAllMemo(request: Request) throws -> EventLoopFuture<[Memo]> {
@@ -32,43 +24,52 @@ struct MemoController: RouteCollection {
         }
     }
     
-    private func updateMemo(request: Request) throws -> EventLoopFuture<[Memo]> {
+    private func updateMemo(request: Request) throws -> EventLoopFuture<Memo> {
         try checkValidContentType(request.headers.contentType)
-        let memo = try request.content.decode(Memo.self)
         
-        guard let index = memo.id else {
+        guard let index = UUID(uuidString: request.parameters.get("index")!) else {
             throw Abort(.badRequest)
         }
         
-//        if let title = memo.title {
-//            _ = Memo.query(on: request.db)
-//                .set(\.$title, to: title)
-//                .filter(\.$id == index)
-//                .update()
-//        }
-//        
-//        if let description = memo.description {
-//            _ = Memo.query(on: request.db)
-//                .set(\.$description, to: description)
-//                .filter(\.$id == index)
-//                .update()
-//        }
-//        
-//        if let date = memo.date {
-//            _ = Memo.query(on: request.db)
-//                .set(\.$date, to: date)
-//                .filter(\.$id == index)
-//                .update()
-//        }
-//        
-//        if let status = memo.status {
-//            _ = Memo.query(on: request.db)
-//                .set(\.$status, to: status)
-//                .filter(\.$id == index)
-//                .update()
-//        }
+        _ = Memo.query(on: request.db)
+            .filter(\.$id == index)
+            .first()
+            .unwrap(orError: Abort(.noContent))
         
-        return Memo.query(on: request.db).all()
+        let requestMemo = try request.content.decode(PatchMemo.self)
+
+        if let title = requestMemo.title {
+            _ = Memo.query(on: request.db)
+                .set(\.$title, to: title)
+                .filter(\.$id == index)
+                .update()
+        }
+        
+        if let description = requestMemo.description {
+            _ = Memo.query(on: request.db)
+                .set(\.$description, to: description)
+                .filter(\.$id == index)
+                .update()
+        }
+        
+        if let date = requestMemo.date {
+            _ = Memo.query(on: request.db)
+                .set(\.$date, to: date)
+                .filter(\.$id == index)
+                .update()
+        }
+        
+        if let status = requestMemo.status {
+            _ = Memo.query(on: request.db)
+                .set(\.$status, to: status)
+                .filter(\.$id == index)
+                .update()
+        }
+        
+        return Memo.query(on: request.db)
+            .filter(\.$id == index)
+            .first()
+            .unwrap(or: Abort(.internalServerError))
     }
     
     private func deleteMemo(request: Request) throws -> EventLoopFuture<Memo> {
